@@ -31,7 +31,12 @@ interface TrackData{
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private http: HttpClient){};
+  public files: any[];
+  public emotion: string = "none";
+
+  constructor(private route: ActivatedRoute, private http: HttpClient){
+    this.files = [];
+  };
 
   ngOnInit(){
     this.route.queryParams.subscribe(params => {
@@ -73,11 +78,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  getTracks(artists_ids: String[], emotion: string): Observable<TrackData>{
+  getTracks(artists_ids: String[]): Observable<TrackData>{
     let min_valence: number;
     let max_valence: number;
 
-    switch (emotion){
+    switch (this.emotion){
       case 'sad':
         min_valence = 0.0;
         max_valence = 0.4;
@@ -111,7 +116,6 @@ export class AppComponent implements OnInit {
   }
 
   getRecommendation(): void{
-    const emotion = 'happy';
 
     this.getArtists().subscribe(
       data => {
@@ -121,7 +125,7 @@ export class AppComponent implements OnInit {
           artists_ids.push(artist.id);
         });
 
-        this.getTracks(artists_ids, emotion).subscribe(
+        this.getTracks(artists_ids).subscribe(
           data => {
             data.tracks.forEach(track => {
               console.log("batata");
@@ -137,5 +141,19 @@ export class AppComponent implements OnInit {
         );
       }
     );
+  }
+
+  onFileChanged(event: any) {
+    this.files = event.target.files;
+  }
+
+  onUpload() {
+    const formData = new FormData();
+    for (const file of this.files) {
+        formData.append("imagem", file, file.name);
+    }
+    this.http.post('url', formData).subscribe(x => {
+
+    });
   }
 }

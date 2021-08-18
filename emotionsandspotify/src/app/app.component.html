@@ -1,7 +1,51 @@
-<h1>Hello World</h1>
+<div>
+  <h1>Melhor projeto da disciplina!</h1>
+  <span>Atenção! para poder utilizar nossa aplicação você deverá seguir os seguintes passos:</span>
+  <ol>
+    <li>Fale com os responsáveis do projeto (contatos no fim da página) para lhe adicionarem na lista de e-mails permitidos</li>
+    <li>Inicie o seu player do spotify (no browser ou celular)</li>
+    <li>Clique no botão "Login no spotify"</li>
+    <li>Faça upload da sua foto</li>
+    <li>Clique no botão "Pegar Recomendações"</li>
+    <li>Aproveite as músicas que foram adicionadas na fila do seu player!</li>
+  </ol>
 
-<input placeholder="Token"/>
+  <button>
+    <a href="https://accounts.spotify.com/authorize?client_id=43f0b1ff8c84477f8fb66ee5a2ead3cb&scope=user-top-read user-modify-playback-state&response_type=code&redirect_uri=http://localhost:4200/">
+      Login no Spotify
+    </a>
+  </button>
 
-<button (click)="getRecommendation()">Get Recommendation</button>
+  <div>
+    <input type="file" name="file" id="file" (change)="onFileChanged($event)" accept="image/*" />
+  </div>
 
-<a href="https://accounts.spotify.com/authorize?client_id=43f0b1ff8c84477f8fb66ee5a2ead3cb&scope=user-top-read user-modify-playback-state&response_type=code&redirect_uri=http://localhost:4200/">Login with Spotify</a>
+  <div *ngIf="emotion == 'none'">
+    <div>
+      <span>Identificamos que a sua emoção é </span>
+      <strong>{{emotion}}</strong>
+    </div>
+    <div>
+      <span>Clique no botão abaixo para pegar as recomendações de música que encontramos para você!</span>
+      <br/>
+      <button (click)="getRecommendation()">Get Recommendation</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <h3>Contato dos responsáveis do projeto:</h3>
+  <ul>
+    <li>mamb2@cin.ufpe.br</li>
+    <li>vefg@cin.ufpe.br</li>
+    <li>phra@cin.ufpe.br</li>
+    <li>mas8@cin.ufpe.br</li>
+  </ul>
+</footer>
+
+<style>
+  a{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+  }
+</style>
