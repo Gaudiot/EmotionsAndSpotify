@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, PreloadingStrategy } from '@angular/router';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse ,} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { retry, map, catchError, take } from 'rxjs/operators';
 
@@ -25,6 +25,31 @@ interface TrackData{
   tracks: [Track]
 }
 
+interface EmotionResponse{
+   0: FaceParameters
+}
+
+interface FaceParameters{
+  faceAttributes: FaceAttributes,
+  faceRectangle: any
+}
+
+interface FaceAttributes{
+  emotion:Emotion
+}
+
+interface Emotion{
+  anger: number,
+  contempt: number,
+  disgust: number,
+  fear: number,
+  happiness: number,
+  neutral: number,
+  sadness: number,
+  surprise: number
+}
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -33,6 +58,7 @@ interface TrackData{
 export class AppComponent implements OnInit {
   public files: any[];
   public emotion: string = "none";
+  public imgURLd: string = "";
 
   constructor(private route: ActivatedRoute, private http: HttpClient){
     this.files = [];
@@ -64,6 +90,46 @@ export class AppComponent implements OnInit {
 
       xhr.send(body);
     });
+  }
+
+  parseEmotions(imgUrl: string){
+    this.getEmotions(imgUrl).subscribe(
+     data => {
+       console.log(data)
+       //const data2 = JSON.parse(data);
+       const emotions = data[0].faceAttributes.emotion
+       console.log(emotions)
+       console.log(emotions.contempt)
+       let array = [emotions.anger,emotions.contempt,emotions.disgust,emotions.fear,
+                    emotions.happiness, emotions.neutral, emotions.sadness, emotions.surprise];
+       let nomes = ["raiva", "desprezo", "desgosto", "medo", "felicidade", "neutral","tristeza", "surpresa"]
+       let emocoes = nomes.map(function(e,i){
+         return [e,array[i]]
+       });
+       console.log(emocoes);
+       if(emotions.sadness > 0){
+         this.emotion = "sad"
+       }else if(emotions.happiness > 0){
+         this.emotion = "happy"
+       }else {
+         this.emotion = "neutral"
+       }
+     }
+    );
+   
+  }
+
+  getEmotions(imgURL: string){
+    const headers = new HttpHeaders({
+      'Content-Type' : "application/json" ,   
+      'Ocp-Apim-Subscription-Key': '9d5a3f69cd914642b00ae36620ea534e',
+    })
+
+    return this.http.post<EmotionResponse>('https://brazilsouth.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion',
+      {url: imgURL},{headers: headers})
+      .pipe(
+        retry(1)
+      );
   }
 
   getArtists():  Observable<ArtistsData>{

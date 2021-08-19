@@ -20,7 +20,12 @@
     <input type="file" name="file" id="file" (change)="onFileChanged($event)" accept="image/*" />
   </div>
 
-  <div *ngIf="emotion == 'none'">
+  <div>
+    <input class="input" [(ngModel)]="imgURLd">
+    <button (click)="parseEmotions(imgURLd)">parseEmotion</button>
+  </div>   
+
+  <div *ngIf="emotion != 'none'">
     <div>
       <span>Identificamos que a sua emoção é </span>
       <strong>{{emotion}}</strong>
