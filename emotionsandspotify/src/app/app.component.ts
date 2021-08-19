@@ -92,46 +92,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  parseEmotions(imgUrl: string){
-    this.getEmotions(imgUrl).subscribe(
-     data => {
-       console.log(data)
-       //const data2 = JSON.parse(data);
-       const emotions = data[0].faceAttributes.emotion
-       console.log(emotions)
-       console.log(emotions.contempt)
-       let array = [emotions.anger,emotions.contempt,emotions.disgust,emotions.fear,
-                    emotions.happiness, emotions.neutral, emotions.sadness, emotions.surprise];
-       let nomes = ["raiva", "desprezo", "desgosto", "medo", "felicidade", "neutral","tristeza", "surpresa"]
-       let emocoes = nomes.map(function(e,i){
-         return [e,array[i]]
-       });
-       console.log(emocoes);
-       if(emotions.sadness > 0){
-         this.emotion = "sad"
-       }else if(emotions.happiness > 0){
-         this.emotion = "happy"
-       }else {
-         this.emotion = "neutral"
-       }
-     }
-    );
-   
-  }
-
-  getEmotions(imgURL: string){
-    const headers = new HttpHeaders({
-      'Content-Type' : "application/json" ,   
-      'Ocp-Apim-Subscription-Key': '9d5a3f69cd914642b00ae36620ea534e',
-    })
-
-    return this.http.post<EmotionResponse>('https://brazilsouth.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion',
-      {url: imgURL},{headers: headers})
-      .pipe(
-        retry(1)
-      );
-  }
-
   getArtists():  Observable<ArtistsData>{
     return this.http.get<ArtistsData>("https://api.spotify.com/v1/me/top/artists",
     {
@@ -194,15 +154,15 @@ export class AppComponent implements OnInit {
         this.getTracks(artists_ids).subscribe(
           data => {
             data.tracks.forEach(track => {
-              console.log("batata");
+              console.log("batata", track.uri);
               this.http.post("https://api.spotify.com/v1/me/player/queue",{},
               {
                 params: { uri: track.uri },
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("access_token")}`
                 }
-              })
-            })
+              });
+            });
           }
         );
       }
@@ -211,6 +171,7 @@ export class AppComponent implements OnInit {
 
   onFileChanged(event: any) {
     this.files = event.target.files;
+    console.log(this.files[0].name);
   }
 
   onUpload() {
@@ -221,5 +182,42 @@ export class AppComponent implements OnInit {
     this.http.post('url', formData).subscribe(x => {
 
     });
+  }
+
+  getEmotions(imgURL: string): Observable<EmotionResponse>{
+    const headers = new HttpHeaders({
+      'Content-Type' : "application/json" ,
+      'Ocp-Apim-Subscription-Key': '9d5a3f69cd914642b00ae36620ea534e',
+    })
+
+    return this.http.post<EmotionResponse>('https://brazilsouth.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion',
+      {url: imgURL},{headers: headers})
+      .pipe(
+        retry(1)
+      );
+  }
+
+  parseEmotions(imgUrl: string){
+    this.getEmotions(imgUrl).subscribe(
+      data => {
+        const emotions = data[0].faceAttributes.emotion
+
+        let array = [emotions.anger,emotions.contempt,emotions.disgust,emotions.fear,
+                      emotions.happiness, emotions.neutral, emotions.sadness, emotions.surprise];
+        let nomes = ["raiva", "desprezo", "desgosto", "medo", "felicidade", "neutral","tristeza", "surpresa"]
+        let emocoes = nomes.map(function(e,i){
+          return [e,array[i]]
+        });
+        console.log(emocoes);
+        if(emotions.sadness > emotions.happiness && emotions.neutral){
+          this.emotion = "sad"
+        }else if(emotions.happiness > emotions.neutral){
+          this.emotion = "happy"
+        }else {
+          this.emotion = "neutral"
+        }
+      }
+    );
+
   }
 }
