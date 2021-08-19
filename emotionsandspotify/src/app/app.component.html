@@ -1,56 +1,88 @@
-<div>
-  <h1>Melhor projeto da disciplina!</h1>
-  <span>Atenção! para poder utilizar nossa aplicação você deverá seguir os seguintes passos:</span>
-  <ol>
-    <li>Fale com os responsáveis do projeto (contatos no fim da página) para lhe adicionarem na lista de e-mails permitidos</li>
-    <li>Inicie o seu player do spotify (no browser ou celular)</li>
-    <li>Clique no botão "Login no spotify"</li>
-    <li>Faça upload da sua foto</li>
-    <li>Clique no botão "Pegar Recomendações"</li>
-    <li>Aproveite as músicas que foram adicionadas na fila do seu player!</li>
-  </ol>
-
-  <button>
-    <a href="https://accounts.spotify.com/authorize?client_id=43f0b1ff8c84477f8fb66ee5a2ead3cb&scope=user-top-read user-modify-playback-state&response_type=code&redirect_uri=http://localhost:4200/">
-      Login no Spotify
-    </a>
-  </button>
-
+<body>
   <div>
-    <input type="file" name="file" id="file" (change)="onFileChanged($event)" accept="image/*" />
+    <h1 class = "melhorProjeto">Melhor projeto da disciplina!</h1>
+    <span class = "alert">Atenção! para poder utilizar nossa aplicação você deverá seguir os seguintes passos:</span>
+    <ol class = "doBefore">
+      <li>Fale com os responsáveis do projeto (contatos no fim da página) para lhe adicionarem na lista de e-mails permitidos.</li>
+      <li>Inicie o seu player do spotify (no browser ou celular).</li>
+      <li>Clique no botão "Login no spotify".</li>
+      <li>Faça upload da sua foto.</li>
+      <li>Clique no botão "Pegar Recomendações".</li>
+      <li>Aproveite as músicas que foram adicionadas na fila do seu player!</li>
+    </ol>
+
+    <button>
+      <a href="https://accounts.spotify.com/authorize?client_id=43f0b1ff8c84477f8fb66ee5a2ead3cb&scope=user-top-read user-modify-playback-state&response_type=code&redirect_uri=http://localhost:4200/">
+        Login no Spotify
+      </a>
+    </button>
+
+    <div>
+      <input type="file" name="file" id="file" (change)="onFileChanged($event)" accept="image/*" />
+    </div>
+
+    <div>
+      <input class="input" [(ngModel)]="imgURLd">
+      <button (click)="parseEmotions(imgURLd)">parseEmotion</button>
+    </div>
+
+    <div *ngIf="emotion != 'none'">
+      <div>
+        <span>Identificamos que a sua emoção é </span>
+        <strong>{{emotion}}</strong>
+      </div>
+      <div>
+        <span>Clique no botão abaixo para pegar as recomendações de música que encontramos para você!</span>
+        <br/>
+        <button (click)="getRecommendation()">Get Recommendation</button>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <input class="input" [(ngModel)]="imgURLd">
-    <button (click)="parseEmotions(imgURLd)">parseEmotion</button>
-  </div>   
-
-  <div *ngIf="emotion != 'none'">
-    <div>
-      <span>Identificamos que a sua emoção é </span>
-      <strong>{{emotion}}</strong>
-    </div>
-    <div>
-      <span>Clique no botão abaixo para pegar as recomendações de música que encontramos para você!</span>
-      <br/>
-      <button (click)="getRecommendation()">Get Recommendation</button>
-    </div>
-  </div>
-</div>
-
-<footer>
-  <h3>Contato dos responsáveis do projeto:</h3>
-  <ul>
-    <li>mamb2@cin.ufpe.br</li>
-    <li>vefg@cin.ufpe.br</li>
-    <li>phra@cin.ufpe.br</li>
-    <li>mas8@cin.ufpe.br</li>
-  </ul>
-</footer>
+  <footer>
+    <h3>Contato dos responsáveis do projeto:</h3>
+    <ul>
+      <li><a href="mailto:mamb2@cin.ufpe">Maria Augusta Borba</a></li>
+      <li><a href="mailto:vefg@cin.ufpe.br">Victor Gaudiot</a></li>
+      <li><a href="mailto:phra@cin.ufpe.br">Pedro Arruda</a></li>
+      <li><a href="mas8@cin.ufpe.br">Matheus Alves</a></li>
+    </ul>
+  </footer>
+</body>
 
 <style>
   a{
     text-decoration: none;
     color: rgb(0, 0, 0);
+  }
+
+  a:hover{
+      transform: scale(1.2);
+  }
+
+  body{
+      font-family:Arial, Helvetica, sans-serif;
+      color: black;
+      background-image: linear-gradient(to bottom right, white, green);
+  }
+
+
+  button{
+      display: block;
+      height: 130px;
+      width: 100px;
+  }
+
+  .alert{
+      color: red;
+  }
+
+  .login:hover{
+      transform: scale(1.2);
+  }
+
+  #logo_image{
+      width: 70px;
+      height: 70px;
   }
 </style>
