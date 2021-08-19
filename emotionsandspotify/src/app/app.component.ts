@@ -154,14 +154,13 @@ export class AppComponent implements OnInit {
         this.getTracks(artists_ids).subscribe(
           data => {
             data.tracks.forEach(track => {
-              console.log("batata", track.uri);
               this.http.post("https://api.spotify.com/v1/me/player/queue",{},
               {
                 params: { uri: track.uri },
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("access_token")}`
                 }
-              });
+              }).subscribe();
             });
           }
         );
