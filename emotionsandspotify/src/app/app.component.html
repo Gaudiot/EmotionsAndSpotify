@@ -11,11 +11,9 @@
       <li>Aproveite as músicas que foram adicionadas na fila do seu player!</li>
     </ol>
 
-    <button>
-      <a href="https://accounts.spotify.com/authorize?client_id=43f0b1ff8c84477f8fb66ee5a2ead3cb&scope=user-top-read user-modify-playback-state&response_type=code&redirect_uri=http://localhost:4200/">
+      <button (click)="login()">
         Login no Spotify
-      </a>
-    </button>
+      </button>
 
     <div>
       <input type="file" name="file" id="file" (change)="onFileChanged($event)" accept="image/*" />
@@ -37,17 +35,17 @@
         <button (click)="getRecommendation()">Get Recommendation</button>
       </div>
     </div>
-  </div>
 
-  <footer>
-    <h3>Contato dos responsáveis do projeto:</h3>
-    <ul>
-      <li><a href="mailto:mamb2@cin.ufpe">Maria Augusta Borba</a></li>
-      <li><a href="mailto:vefg@cin.ufpe.br">Victor Gaudiot</a></li>
-      <li><a href="mailto:phra@cin.ufpe.br">Pedro Arruda</a></li>
-      <li><a href="mas8@cin.ufpe.br">Matheus Alves</a></li>
-    </ul>
-  </footer>
+    <footer>
+      <h3>Contato dos responsáveis do projeto:</h3>
+      <ul>
+        <li><a href="mailto:mamb2@cin.ufpe">Maria Augusta Borba</a></li>
+        <li><a href="mailto:vefg@cin.ufpe.br">Victor Gaudiot</a></li>
+        <li><a href="mailto:phra@cin.ufpe.br">Pedro Arruda</a></li>
+        <li><a href="mas8@cin.ufpe.br">Matheus Alves</a></li>
+      </ul>
+    </footer>
+  </div>
 </body>
 
 <style>
@@ -56,21 +54,29 @@
     color: rgb(0, 0, 0);
   }
 
-  a:hover{
-      transform: scale(1.2);
-  }
-
   body{
-      font-family:Arial, Helvetica, sans-serif;
-      color: black;
-      background-image: linear-gradient(to bottom right, white, green);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family:Arial, Helvetica, sans-serif;
+    background-image: url("https://thumbs.dreamstime.com/b/music-notes-seamless-pattern-vector-background-cute-repeat-repeating-wallpaper-217627524.jpg%22");
+    background-repeat: repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
+  div{
+    width: 700px;
+    height: fit-content;
+    background-color: white;
+  }
 
   button{
       display: block;
-      height: 130px;
+      height: 40px;
       width: 100px;
+      cursor: pointer;
   }
 
   .alert{

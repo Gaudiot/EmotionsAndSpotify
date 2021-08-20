@@ -92,6 +92,10 @@ export class AppComponent implements OnInit {
     });
   }
 
+  login(){
+    window.location.href = "https://accounts.spotify.com/authorize?client_id=43f0b1ff8c84477f8fb66ee5a2ead3cb&scope=user-top-read user-modify-playback-state&response_type=code&redirect_uri=http://localhost:4200/";
+  }
+
   getArtists():  Observable<ArtistsData>{
     return this.http.get<ArtistsData>("https://api.spotify.com/v1/me/top/artists",
     {
@@ -154,6 +158,7 @@ export class AppComponent implements OnInit {
         this.getTracks(artists_ids).subscribe(
           data => {
             data.tracks.forEach(track => {
+              //console.log("batata", track.uri)
               this.http.post("https://api.spotify.com/v1/me/player/queue",{},
               {
                 params: { uri: track.uri },
