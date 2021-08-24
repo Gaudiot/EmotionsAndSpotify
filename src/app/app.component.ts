@@ -63,12 +63,14 @@ export class AppComponent implements OnInit {
   private redirect_uri;
   private client_id;
   private client_secret;
+  private azure_key;
 
   constructor(private route: ActivatedRoute, private http: HttpClient){
     this.files = [];
     this.redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
     this.client_id = process.env.SPOTIFY_CLIENT_ID;
     this.client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+    this.azure_key = process.env.AZURE_KEY;
   };
 
   ngOnInit(){
@@ -210,86 +212,17 @@ export class AppComponent implements OnInit {
     );
   }
 
-  /**imgof(img:any){
-    this.img = img;
-  }
-
-  toBase64(result:any){
-    var data = result.split(',')[1];
-    var mimeType = result.split(';')[0].slice(5)
-
-    var bytes = window.atob(data);
-    var buf = new ArrayBuffer(bytes.length);
-    var byteArr = new Uint8Array(buf);
-
-    for (var i = 0; i < bytes.length; i++) {
-        byteArr[i] = bytes.charCodeAt(i);
-    }
-
-    this.UploadImg(byteArr);
-  }*/
-
   onFileChanged(event: any) {
     this.files = event.target.files;
     console.log(this.files[0].name);
     const reader = new FileReader();
     reader.readAsDataURL(this.files[0]);
-    //reader.onload = () => this.toBase64(reader.result);
   }
-
-  /*getEmotions2(image:any): Observable<EmotionResponse>{
-    const headers = new HttpHeaders({
-      'Content-Type' : "application/octet-stream" ,
-      'Ocp-Apim-Subscription-Key': '9d5a3f69cd914642b00ae36620ea534e',
-    })
-
-    return this.http.post<EmotionResponse>('https://brazilsouth.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion',
-      {image},{headers: headers})
-      .pipe(
-        retry(1)
-      );
-  }
-
-  UploadImg(image:any) {
-    //const formData = new FormData();
-    //var image = this.files[0]
-    //for (const file of this.files) {
-    //    formData.append("imagem", file, file.name);
-    //}
-    this.getEmotions2(image).subscribe(data => {
-      const emotions = data[0].faceAttributes.emotion
-
-      let array = [emotions.anger,emotions.contempt,emotions.disgust,emotions.fear,
-                    emotions.happiness, emotions.neutral, emotions.sadness, emotions.surprise];
-      let nomes = ["raiva", "desprezo", "desgosto", "medo", "felicidade", "neutral","tristeza", "surpresa"]
-      let emocoes = nomes.map(function(e,i){
-        return [e,array[i]]
-      });
-      console.log(emocoes);
-      if(emotions.sadness > emotions.happiness && emotions.neutral){
-        this.emotion = "sad"
-      }else if(emotions.happiness > emotions.neutral){
-        this.emotion = "happy"
-      }
-      else if(){
-        this.emotion = "angry"
-      }
-      else if(){
-        this.emotion = "afraid"
-      }
-      else if(){
-        this.emotion = "surprised"
-      }
-      else {
-        this.emotion = "neutral"
-      }
-    });
-  }**/
 
   getEmotions(imgURL: string): Observable<EmotionResponse>{
     const headers = new HttpHeaders({
       'Content-Type' : "application/json" ,
-      'Ocp-Apim-Subscription-Key': '9d5a3f69cd914642b00ae36620ea534e',
+      'Ocp-Apim-Subscription-Key': `${this.azure_key}`,
     })
 
     return this.http.post<EmotionResponse>('https://brazilsouth.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion',
