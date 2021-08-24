@@ -3,6 +3,7 @@ import { ActivatedRoute, PreloadingStrategy } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse ,} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { retry, map, catchError, take } from 'rxjs/operators';
+import { environment } from './../environments/environment';
 
 interface Artist{
   name: string,
@@ -67,10 +68,10 @@ export class AppComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private http: HttpClient){
     this.files = [];
-    this.redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
-    this.client_id = process.env.SPOTIFY_CLIENT_ID;
-    this.client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-    this.azure_key = process.env.AZURE_KEY;
+    this.redirect_uri = environment.SPOTIFY_REDIRECT_URI;
+    this.client_id = environment.SPOTIFY_CLIENT_ID;
+    this.client_secret = environment.SPOTIFY_CLIENT_SECRET;
+    this.azure_key = environment.AZURE_KEY;
   };
 
   ngOnInit(){
