@@ -68,10 +68,10 @@ export class AppComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private http: HttpClient){
     this.files = [];
-    this.redirect_uri = environment.SPOTIFY_REDIRECT_URI;
-    this.client_id = environment.SPOTIFY_CLIENT_ID;
-    this.client_secret = environment.SPOTIFY_CLIENT_SECRET;
-    this.azure_key = environment.AZURE_KEY;
+    this.redirect_uri = 'https://emotionsandspotify.herokuapp.com/';
+    this.client_id = '43f0b1ff8c84477f8fb66ee5a2ead3cb';
+    this.client_secret = '1d7d8e502ae9413faec981e2518adf76';
+    this.azure_key = '9d5a3f69cd914642b00ae36620ea534e';
   };
 
   ngOnInit(){
