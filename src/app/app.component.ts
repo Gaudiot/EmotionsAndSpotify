@@ -3,7 +3,6 @@ import { ActivatedRoute, PreloadingStrategy } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse ,} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { retry, map, catchError, take } from 'rxjs/operators';
-import { environment } from './../environments/environment';
 
 interface Artist{
   name: string,
@@ -69,6 +68,7 @@ export class AppComponent implements OnInit {
   constructor(private route: ActivatedRoute, private http: HttpClient){
     this.files = [];
     this.redirect_uri = 'https://emotionsandspotify.herokuapp.com/';
+    // this.redirect_uri = 'http://localhost:4200/'
     this.client_id = '43f0b1ff8c84477f8fb66ee5a2ead3cb';
     this.client_secret = '1d7d8e502ae9413faec981e2518adf76';
     this.azure_key = '9d5a3f69cd914642b00ae36620ea534e';
@@ -96,7 +96,6 @@ export class AppComponent implements OnInit {
 
       xhr.open("POST", "https://accounts.spotify.com/api/token", true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      //xhr.setRequestHeader('Authorization', 'Basic ' + btoa("43f0b1ff8c84477f8fb66ee5a2ead3cb:76e41628aeab4c99a44f6dd15dfadff9"));
 
       xhr.send(body);
     });
@@ -168,7 +167,7 @@ export class AppComponent implements OnInit {
         max_energy = 1.0
     }
 
-    return this.http.get<any>("https://api.spotify.com/v1/recommendations",
+    return this.http.get<TrackData>("https://api.spotify.com/v1/recommendations",
     {
       params: {
         limit: 10,
@@ -223,7 +222,7 @@ export class AppComponent implements OnInit {
   getEmotions(imgURL: string): Observable<EmotionResponse>{
     const headers = new HttpHeaders({
       'Content-Type' : "application/json" ,
-      'Ocp-Apim-Subscription-Key': `${this.azure_key}`,
+      'Ocp-Apim-Subscription-Key': this.azure_key,
     })
 
     return this.http.post<EmotionResponse>('https://brazilsouth.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceAttributes=emotion',

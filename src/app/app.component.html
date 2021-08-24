@@ -16,10 +16,6 @@
       </button>
 
     <div>
-      <input type="file" name="file" id="file" (change)="onFileChanged($event)" accept="image/*" />
-    </div>
-
-    <div>
       <input class="input" [(ngModel)]="imgURLd">
       <button (click)="parseEmotions(imgURLd)">parseEmotion</button>
     </div>
