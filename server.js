@@ -17,4 +17,4 @@ app.get('/*', function(req, res) {
   res.sendFile('index.html', {root: 'dist/emotionsandspotify/'});
 });
 
-app.listen(8080, () => {console.log("O servidor foi iniciado")});
+app.listen(process.env.PORT || 8080, () => {console.log("O servidor foi iniciado")});
