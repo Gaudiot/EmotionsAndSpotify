@@ -60,9 +60,15 @@ export class AppComponent implements OnInit {
   public emotion: string = "none";
   public imgURLd: string = "";
   public img:any;
+  private redirect_uri;
+  private client_id;
+  private client_secret;
 
   constructor(private route: ActivatedRoute, private http: HttpClient){
     this.files = [];
+    this.redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+    this.client_id = process.env.SPOTIFY_CLIENT_ID;
+    this.client_secret = process.env.SPOTIFY_CLIENT_SECRET;
   };
 
   ngOnInit(){
@@ -71,9 +77,9 @@ export class AppComponent implements OnInit {
 
       let body = "grant_type=authorization_code";
       body += "&code=" + params['code'];
-      body += "&redirect_uri=http://localhost:4200/";
-      body += "&client_id=43f0b1ff8c84477f8fb66ee5a2ead3cb";
-      body += "&client_secret=eaa1a0855474412aadc1cfe742276d1b";
+      body += `&redirect_uri=${this.redirect_uri}`;
+      body += `&client_id=${this.client_id}`;
+      body += `&client_secret=${this.client_secret}`;
 
       let xhr = new XMLHttpRequest();
 
@@ -94,7 +100,7 @@ export class AppComponent implements OnInit {
   }
 
   login(){
-    window.location.href = "https://accounts.spotify.com/authorize?client_id=43f0b1ff8c84477f8fb66ee5a2ead3cb&scope=user-top-read user-modify-playback-state&response_type=code&redirect_uri=http://localhost:4200/";
+    window.location.href = `https://accounts.spotify.com/authorize?client_id=${this.client_id}&scope=user-top-read user-modify-playback-state&response_type=code&redirect_uri=${this.redirect_uri}`;
   }
 
   getArtists():  Observable<ArtistsData>{
@@ -151,7 +157,7 @@ export class AppComponent implements OnInit {
         max_valence = 0.6;
         min_energy = 0.0
         max_energy = 0.5
-        break;        
+        break;
       default:
         min_valence = 0.0;
         max_valence = 1.0
@@ -219,7 +225,7 @@ export class AppComponent implements OnInit {
     for (var i = 0; i < bytes.length; i++) {
         byteArr[i] = bytes.charCodeAt(i);
     }
-     
+
     this.UploadImg(byteArr);
   }*/
 
