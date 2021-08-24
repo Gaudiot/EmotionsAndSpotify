@@ -6,7 +6,7 @@
       <li>Envie um e-mail para mamb2@cin.ufpe.br para pedir permissão na utilização da aplicação (Bote como assunto "Emotions and Spotify").</li>
       <li>Inicie o seu player do spotify (no browser ou celular).</li>
       <li>Clique no botão "Login no spotify".</li>
-      <li>Faça upload da sua foto.</li>
+      <li>Insira no input o link da imagem que deverá conter a emoção.</li>
       <li>Clique no botão "Pegar Recomendações".</li>
       <li>Aproveite as músicas que foram adicionadas na fila do seu player!</li>
     </ol>
@@ -16,7 +16,7 @@
       </button>
 
     <div>
-      <input class="input" [(ngModel)]="imgURLd">
+      <input placeholder="Link da imagem" class="input" [(ngModel)]="imgURLd">
       <button (click)="parseEmotions(imgURLd)">parseEmotion</button>
     </div>
 
