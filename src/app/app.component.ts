@@ -60,6 +60,7 @@ export class AppComponent implements OnInit {
   public emotion: string = "none";
   public imgURLd: string = "";
   public img:any;
+  public logged: boolean = false;
   private redirect_uri;
   private client_id;
   private client_secret;
@@ -77,6 +78,7 @@ export class AppComponent implements OnInit {
   ngOnInit(){
     this.route.queryParams.subscribe(params => {
       if(params['code'] == undefined) return;
+      this.logged = true;
 
       let body = "grant_type=authorization_code";
       body += "&code=" + params['code'];
@@ -233,6 +235,7 @@ export class AppComponent implements OnInit {
   }
 
   parseEmotions(imgUrl: string){
+    this.emotion = "none";
     this.getEmotions(imgUrl).subscribe(
       data => {
         const emotions = data[0].faceAttributes.emotion

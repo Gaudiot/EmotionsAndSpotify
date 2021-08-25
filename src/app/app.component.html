@@ -14,6 +14,7 @@
       <button (click)="login()">
         Login no Spotify
       </button>
+      <h3 *ngIf="logged" style="color:green">Você está logado!</h3>
 
     <div>
       <input placeholder="Link da imagem" class="input" [(ngModel)]="imgURLd">
